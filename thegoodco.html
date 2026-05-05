@@ -349,16 +349,22 @@
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
 
-  <script src="assets/js/main.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
+<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
 
-  <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Init Isotope
-      var grid = document.querySelector('#portfolio-grid');
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var grid = document.querySelector('#portfolio-grid');
+
+    // This is the part that waits for your images (like the soaps and stools) to load
+    imagesLoaded(grid, function() {
+      
+      // NOW initialize Isotope
       var iso = new Isotope(grid, {
         itemSelector: '.item',
-        layoutMode: 'fitRows'
+        layoutMode: 'masonry', // Changed to masonry to better handle square/rect images
+        percentPosition: true
       });
 
       // Filter on click
@@ -377,6 +383,8 @@
       });
     });
   </script>
+    
+
 
 </body>
 
