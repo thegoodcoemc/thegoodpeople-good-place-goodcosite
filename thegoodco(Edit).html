@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>The Good Place</title>
+  <meta name="description" content="The Good Place eco-conscious, cruelty-free, vegan and sustainable living workshops.">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/tgc/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/tgc/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/tgc/favicon-16x16.png">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --ink: #111;
+      --muted: #f6f4f4;
+      --paper: #fff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Courier, "Courier New", monospace;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      width: min(1120px, calc(100vw - 64px));
+      margin: 56px auto 72px;
+    }
+
+    .brand {
+      display: inline-flex;
+      min-width: 278px;
+      min-height: 105px;
+      align-items: center;
+      padding: 28px 56px;
+      background: var(--muted);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(28px, 3.5vw, 43px);
+      font-weight: 700;
+      letter-spacing: 0;
+      line-height: 1;
+    }
+
+    .intro-row {
+      display: grid;
+      grid-template-columns: minmax(260px, 1fr) auto;
+      gap: 40px;
+      align-items: end;
+      margin: 48px 0 56px 56px;
+    }
+
+    .intro h2 {
+      margin: 0 0 14px;
+      font-size: 17px;
+      font-weight: 400;
+    }
+
+    .intro p {
+      max-width: 560px;
+      margin: 0;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .01em;
+    }
+
+    .filters {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0;
+      white-space: nowrap;
+    }
+
+    .filters a {
+      min-width: 105px;
+      padding: 8px 18px;
+      background: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .filters a:first-child {
+      min-width: 42px;
+      background: transparent;
+      padding-left: 0;
+    }
+
+    .filters a.active {
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 17px;
+      margin-left: 56px;
+    }
+
+    .item {
+      display: block;
+    }
+
+    .item.is-hidden {
+      display: none;
+    }
+
+    .item-wrap {
+      position: relative;
+      display: block;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      background: #eee;
+    }
+
+    .item-wrap img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .25s ease;
+    }
+
+    .work-info {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      color: #fff;
+      text-align: center;
+      text-shadow: 0 1px 8px rgba(0, 0, 0, .55);
+      opacity: 0;
+      transition: opacity .2s ease;
+    }
+
+    .work-info h3 {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+
+    .work-info span {
+      display: block;
+      margin-top: 7px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .item-wrap::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, .28);
+      opacity: 0;
+      transition: opacity .2s ease;
+    }
+
+    .item-wrap:hover img {
+      transform: scale(1.04);
+    }
+
+    .item-wrap:hover .work-info,
+    .item-wrap:hover::after,
+    .item-wrap:focus-visible .work-info,
+    .item-wrap:focus-visible::after {
+      opacity: 1;
+    }
+
+    .item-feature .work-info {
+      opacity: 1;
+    }
+
+    .item-feature .item-wrap::after {
+      opacity: .18;
+    }
+
+    .footer {
+      width: 100%;
+      margin-top: 8px;
+      padding: 50px 0;
+      background: #fff;
+      color: #000;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 14px;
+    }
+
+    .footer .container {
+      width: min(1120px, calc(100vw - 64px));
+      margin: 0 auto;
+      padding-left: 56px;
+    }
+
+    .footer .row {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) minmax(220px, 2fr);
+      gap: 32px;
+      align-items: start;
+    }
+
+    .footer h4 {
+      margin: 0 0 12px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    .footer p {
+      margin: 0;
+      line-height: 1.7;
+    }
+
+    .footer .social-links {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .footer .social-links a {
+      display: inline-flex;
+      width: 40px;
+      height: 40px;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(0, 0, 0, .22);
+      border-radius: 50%;
+      color: #000;
+      font-size: 18px;
+      transition: border-color .2s ease;
+    }
+
+    .footer .social-links a:hover {
+      border-color: #000;
+    }
+
+    .footer .copyright {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .page {
+        width: min(100% - 32px, 720px);
+        margin-top: 32px;
+      }
+
+      .brand {
+        min-width: 0;
+        min-height: 82px;
+        padding: 22px 30px;
+      }
+
+      .intro-row,
+      .gallery {
+        margin-left: 0;
+      }
+
+      .intro-row {
+        grid-template-columns: 1fr;
+        gap: 22px;
+        margin-top: 36px;
+        margin-bottom: 32px;
+      }
+
+      .filters {
+        justify-content: flex-start;
+        overflow-x: auto;
+      }
+
+      .gallery {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .footer .container {
+        width: min(100% - 32px, 720px);
+        padding-left: 0;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .page {
+        width: calc(100% - 24px);
+        margin-top: 24px;
+      }
+
+      .brand {
+        width: 100%;
+        justify-content: center;
+        font-size: 30px;
+      }
+
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+
+      .filters a {
+        min-width: 92px;
+        padding: 8px 12px;
+      }
+
+      .footer .container {
+        width: calc(100% - 24px);
+      }
+
+      .footer .row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <h1 class="brand">The Good Place</h1>
+
+    <section class="intro-row" aria-label="Gallery introduction">
+      <div class="intro">
+        <h2>Hey,</h2>
+        <p>want to learn how to make some eco-conscious, cruelty-free, vegan, stuff?</p>
+      </div>
+
+      <nav id="filters" class="filters" aria-label="Gallery filters">
+        <a href="#" data-filter="*" class="active">All</a>
+        <a href="#" data-filter="wellness">Wellness</a>
+        <a href="#" data-filter="sustainable">Sustainable Living</a>
+        <a href="#" data-filter="booth">Booth</a>
+      </nav>
+    </section>
+
+    <section id="portfolio-grid" class="gallery" aria-label="The Good Place gallery">
+      <article class="item sustainable booth">
+        <a href="smoothie_bike.html" class="item-wrap">
+          <img src="assets/img/smoothie_bike.png" alt="Smoothie bike booth">
+          <div class="work-info">
+            <div>
+              <h3>Smoothie Bike</h3>
+              <span>Booth</span>
+            </div>
+          </div>
+        </a>
+      </article>
+
+      <article class="item wellness">
+        <a href="programmes.html" class="item-wrap">
+          <img src="assets/img/mindfulart.png" alt="Mindful art workshop">
+          <div class="work-info">
+            <div>
+              <h3>Mindful Art Workshop</h3>
+              <span>Wellness</span>
+            </div>
+          </div>
+        </a>
+      </article>
+
+      <article class="item sustainable item-feature">
+        <a href="mobile_plastic_recycling_workstation.html" class="item-wrap">
+          <img src="assets/img/plasticrecyclingworkshop.png" alt="Plastic recycling workshop">
+          <div class="work-info">
+            <div>
+              <h3>Plastic Recycling Workshop</h3>
+              <span>Sustainable Workshop</span>
+            </div>
+          </div>
+        </a>
+      </article>
+
+      <article class="item sustainable">
+        <a href="the_paper_project.html" class="item-wrap">
+          <img src="assets/img/corkbook.png" alt="Cork notebook workshop">
+          <div class="work-info">
+            <div>
+              <h3>Cork Book</h3>
+              <span>Sustainable Living</span>
+            </div>
+          </div>
+        </a>
+      </article>
+
+      <article class="item wellness">
+        <a href="programmes.html" class="item-wrap">
+          <img src="assets/img/flowerworkshop.png" alt="Flower workshop">
+          <div class="work-info">
+            <div>
+              <h3>Flower Workshop</h3>
+              <span>Wellness</span>
+            </div>
+          </div>
+        </a>
+      </article>
+
+      <article class="item wellness sustainable">
+        <a href="the_glass_project.html" class="item-wrap">
+          <img src="assets/img/cutglasscandle.png" alt="Cut glass candle workshop">
+          <div class="work-info">
+            <div>
+              <h3>Cut Glass Candle</h3>
+              <span>Workshop</span>
+            </div>
+          </div>
+        </a>
+      </article>
+
+      <article class="item wellness">
+        <a href="programmes.html" class="item-wrap">
+          <img src="assets/img/essentialoilws.png" alt="Essential oil workshop">
+          <div class="work-info">
+            <div>
+              <h3>Essential Oil Workshop</h3>
+              <span>Wellness</span>
+            </div>
+          </div>
+        </a>
+      </article>
+
+      <article class="item sustainable">
+        <a href="coaster.html" class="item-wrap">
+          <img src="assets/img/diycoasterworkshop.png" alt="DIY coaster workshop">
+          <div class="work-info">
+            <div>
+              <h3>DIY Coaster Workshop</h3>
+              <span>Sustainable Living</span>
+            </div>
+          </div>
+        </a>
+      </article>
+
+      <article class="item booth wellness">
+        <a href="programmes.html" class="item-wrap">
+          <img src="assets/img/coffeescrubbooth.png" alt="Coffee scrub booth">
+          <div class="work-info">
+            <div>
+              <h3>Coffee Scrub Booth</h3>
+              <span>Booth</span>
+            </div>
+          </div>
+        </a>
+      </article>
+
+      <article class="item sustainable">
+        <a href="the_paper_project.html" class="item-wrap">
+          <img src="assets/img/papermaking.png" alt="Paper making workshop">
+          <div class="work-info">
+            <div>
+              <h3>Paper Making</h3>
+              <span>Sustainable Living</span>
+            </div>
+          </div>
+        </a>
+      </article>
+
+      <article class="item wellness">
+        <a href="programmes.html" class="item-wrap">
+          <img src="assets/img/lipbalmworkshop.png" alt="Lip balm workshop">
+          <div class="work-info">
+            <div>
+              <h3>Lip Balm Workshop</h3>
+              <span>Wellness</span>
+            </div>
+          </div>
+        </a>
+      </article>
+
+      <article class="item sustainable">
+        <a href="recycle.html" class="item-wrap">
+          <img src="assets/img/recycledplastictiles.png" alt="Recycled plastic tiles">
+          <div class="work-info">
+            <div>
+              <h3>Recycled Plastic Tiles</h3>
+              <span>Sustainable Living</span>
+            </div>
+          </div>
+        </a>
+      </article>
+    </section>
+  </main>
+
+  <footer id="footer" class="footer">
+    <div class="container">
+      <div class="row">
+        <div>
+          <h4>Contact Us</h4>
+          <p>
+            <strong>Phone:</strong> +65 8498 8943<br>
+            <strong>Email:</strong> hello@thegoodpeople.sg
+          </p>
+        </div>
+
+        <div class="footer-links">
+          <h4>See Our Work</h4>
+          <div class="social-links">
+            <a href="https://www.instagram.com/thegoodco.sg/" class="instagram" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+            <a href="https://www.linkedin.com/company/thegoodcosg/" class="linkedin" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong><span>The Good People</span></strong>. All Rights Reserved
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const filters = document.querySelector('#filters');
+      const items = document.querySelectorAll('#portfolio-grid .item');
+
+      filters.addEventListener('click', function (event) {
+        const link = event.target.closest('[data-filter]');
+        if (!link) return;
+        event.preventDefault();
+
+        const filterValue = link.getAttribute('data-filter');
+        filters.querySelectorAll('a').forEach(filter => filter.classList.remove('active'));
+        link.classList.add('active');
+
+        items.forEach(item => {
+          const shouldShow = filterValue === '*' || item.classList.contains(filterValue);
+          item.classList.toggle('is-hidden', !shouldShow);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>
